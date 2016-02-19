@@ -76,7 +76,7 @@ map of strings => arrays filled with, well, _stuff_.
 	strs := []interface{}{"foo", "bar", "baz", "apple", "organge", "red", "x"}
 	strs_gen := ohyeah.ElementGen(r, strs)
 
-	// Generator which returns random ints. 99 is the seed value
+	// Generator which returns random ints. 
 
 	ints_gen := ohyeah.IntGen(r)
 
