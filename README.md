@@ -27,18 +27,18 @@ that starts at 1.
 Thus this:
 
 ```go
-	idGen := ohyeah.PatternedStringGen("ID")
-	nameGen := ohyeah.PatternedStringGen("Fred")
+idGen := ohyeah.PatternedStringGen("ID")
+nameGen := ohyeah.PatternedStringGen("Fred")
 ```
 
 Will give you a function in `idGen` that will generated a sequence of ID strings:
 
 ```go
-	a := idGen()  // a is "ID1"
-	b := idGen()  // b is "ID2"
+a := idGen()  // a is "ID1"
+b := idGen()  // b is "ID2"
 
-	n1 := nameGen()  // That's "Fred1"
-	n2 := nameGen()  // That's "Fred2"
+n1 := nameGen()  // That's "Fred1"
+n2 := nameGen()  // That's "Fred2"
 ```
 
 If you are not used to this style of programming, the whole function producing
@@ -66,39 +66,38 @@ map of strings => arrays filled with, well, _stuff_.
 
 
 ```go
-	// Random function we will use through out.
+// Random function we will use through out.
 
-	r := ohyeah.RandomFunc(99)
+r := ohyeah.RandomFunc(99)
 
-	// Generator which picks random element from the array.
+// Generator which picks random element from the array.
 
+strs := []interface{}{"foo", "bar", "baz", "apple", "organge", "red", "x"}
+strs_gen := ohyeah.ElementGen(r, strs)
 
-	strs := []interface{}{"foo", "bar", "baz", "apple", "organge", "red", "x"}
-	strs_gen := ohyeah.ElementGen(r, strs)
+// Generator which returns random ints. 
 
-	// Generator which returns random ints. 
+ints_gen := ohyeah.IntGen(r)
 
-	ints_gen := ohyeah.IntGen(r)
+// Generator which always just returns true
 
-	// Generator which always just returns true
+true_gen :=  ohyeah.ConstantGen(true)
 
-	true_gen :=  ohyeah.ConstantGen(true)
+// Generator which returns "Key1", "Key2" ...
 
-	// Generator which returns "Key1", "Key2" ...
+key_gen := ohyeah.PatternedStringGen("Key")
 
-	key_gen := ohyeah.PatternedStringGen("Key")
+// Generator which will return values from the other generators
 
-	// Generator which will return values from the other generators
+value_gen := ohyeah.CycleGen(true_gen, key_gen, ints_gen, strs_gen)
 
-	value_gen := ohyeah.CycleGen(true_gen, key_gen, ints_gen, strs_gen)
+// Generator which will return randomly sized arrays of values, max len = 10
 
-	// Generator which will return randomly sized arrays of values, max len = 10
+array_gen := ohyeah.ArrayGen(r, value_gen, 10)
 
-	array_gen := ohyeah.ArrayGen(r, value_gen, 10)
+// Generator which will return randomly sized maps of "KeyNNN" => array
 
-	// Generator which will return randomly sized maps of "KeyNNN" => array
-
-	map_gen := ohyeah.MapGen(r, key_gen, array_gen, 10)
+map_gen := ohyeah.MapGen(r, key_gen, array_gen, 10)
 ```
 
 ## Copyright and License
