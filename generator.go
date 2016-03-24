@@ -3,6 +3,7 @@ package ohyeah
 import (
 	"fmt"
 	"net/url"
+	"math/big"
 )
 
 type Int64F func() int64
@@ -62,6 +63,36 @@ func Float64Gen(r Int64F) Generator {
 		i := r()
 		j := r()
 		return float64(i) / float64(j)
+	}
+}
+
+func BigIntGen(r Int64F) Generator {
+	return func() interface{} {
+		x := big.NewInt(r())
+		x = x.Mul(x, x)
+		return x
+	}
+}
+
+func BigFloatGen(r Int64F) Generator {
+	return func() interface{} {
+		a := float64(r())
+		b := float64(r()) + 1.0
+		x := big.NewFloat(a)
+		y := big.NewFloat(b)
+		y = y.Quo(x, y)
+		return y
+	}
+}
+
+func BigRatGen(r Int64F) Generator {
+	return func() interface{} {
+		d := r()
+		for d == 0 {
+			d = r()
+		}
+		r := big.NewRat(r(), d)
+		return r
 	}
 }
 
