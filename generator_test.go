@@ -56,9 +56,8 @@ func TestRandom(t *testing.T) {
 }
 
 func TestPatternedStrings(t *testing.T) {
-	r := RandomFunc(99)
 	var f Generator
-	f = PatternedStringGen(r, "foo")
+	f = PatternedStringGen("foo")
 
 	for i := 0; i < 100; i++ {
 		value := f()
@@ -106,7 +105,7 @@ func XXTestArray(t *testing.T) {
 func XXTestMap(t *testing.T) {
 	r := RandomFunc(99)
 
-	kf := PatternedStringGen(r, "key")
+	kf := PatternedStringGen("key")
 	vf := IntGen(r)
 
 	f := MapGen(r, kf, vf, 5)
@@ -137,12 +136,9 @@ func XXTestBool(t *testing.T) {
 	}
 }
 
-func TestCrazy(t *testing.T) {
+func XXTestCrazy(t *testing.T) {
 	r := RandomFunc(99)
-
-	//a := []interface{}{"russ", "olsen", "1234", "hello"}
-
-	z := MapGen(r, PatternedStringGen(r, "key"), ArrayGen(r, IntGen(r), 10), 25)
+	z := MapGen(r, PatternedStringGen("key"), ArrayGen(r, IntGen(r), 10), 25)
 
 	for i := 0; i < 100; i++ {
 		log.Println(z())
